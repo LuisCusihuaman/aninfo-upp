@@ -2,8 +2,20 @@
 
 import { EyeIcon, PenIcon, TrashIcon } from 'lucide-react';
 import { useState } from 'react';
+import { toast, Toaster } from 'sonner';
 
-import { Avatar, AvatarFallback } from '@/components/ui/avatar';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from '@/components/ui/alert-dialog';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import {
   Dialog,
@@ -23,7 +35,6 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import { Toaster, toast } from 'sonner';
 
 interface Student {
   id: number;
@@ -110,6 +121,8 @@ export default function Page() {
     fecha_de_egreso: '',
   });
 
+  const [studentToDelete, setStudentToDelete] = useState<Student | null>(null);
+
   const handleAddStudent = () => {
     setModalMode('add');
     setModalData({
@@ -132,9 +145,17 @@ export default function Page() {
     setShowModal(true);
   };
 
-  const handleDeleteStudent = (id: number) => {
-    if (window.confirm('Are you sure you want to delete this student?')) {
-      setStudents(students.filter((student) => student.id !== id));
+  const handleDeleteStudent = (student: Student) => {
+    setStudentToDelete(student);
+  };
+
+  const confirmDeleteStudent = () => {
+    if (studentToDelete) {
+      setStudents(
+        students.filter((student) => student.id !== studentToDelete.id),
+      );
+      setStudentToDelete(null);
+      toast.success(`Estudiante ${studentToDelete.nombre} ha sido eliminado.`);
     }
   };
 
@@ -162,6 +183,7 @@ export default function Page() {
 
     toast.promise(savePromise, {
       loading: 'Guardando...',
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       success: (data: any) =>
         data.mode === 'add'
           ? `Estudiante ${data.name} ha sido agregado correctamente.`
@@ -203,7 +225,10 @@ export default function Page() {
                     <TableCell>
                       <div className="flex items-center gap-2">
                         <Avatar className="size-8">
-                          <img src="/placeholder.svg" alt={student.nombre} />
+                          <AvatarImage
+                            alt={student.nombre}
+                            src="/placeholder.svg"
+                          />
                           <AvatarFallback>
                             {student.nombre.charAt(0)}
                           </AvatarFallback>
@@ -237,17 +262,40 @@ export default function Page() {
                           onClick={() => handleEditStudent(student)}
                         >
                           <PenIcon className="size-4" />
-                          <span className="sr-only">Edit</span>
+                          <span className="sr-only">Editar</span>
                         </Button>
-                        <Button
-                          variant="outline"
-                          size="icon"
-                          className="rounded-full"
-                          onClick={() => handleDeleteStudent(student.id)}
-                        >
-                          <TrashIcon className="size-4" />
-                          <span className="sr-only">Delete</span>
-                        </Button>
+                        <AlertDialog>
+                          <AlertDialogTrigger asChild>
+                            <Button
+                              variant="outline"
+                              size="icon"
+                              className="rounded-full"
+                              onClick={() => handleDeleteStudent(student)}
+                            >
+                              <TrashIcon className="size-4" />
+                              <span className="sr-only">Eliminar</span>
+                            </Button>
+                          </AlertDialogTrigger>
+                          <AlertDialogContent>
+                            <AlertDialogHeader>
+                              <AlertDialogTitle>
+                                ¿Está seguro de que desea eliminar este
+                                estudiante?
+                              </AlertDialogTitle>
+                              <AlertDialogDescription>
+                                Esta acción no se puede deshacer. Esto eliminará
+                                permanentemente al estudiante y eliminará sus
+                                datos de nuestros servidores.
+                              </AlertDialogDescription>
+                            </AlertDialogHeader>
+                            <AlertDialogFooter>
+                              <AlertDialogCancel>Cancelar</AlertDialogCancel>
+                              <AlertDialogAction onClick={confirmDeleteStudent}>
+                                Continuar
+                              </AlertDialogAction>
+                            </AlertDialogFooter>
+                          </AlertDialogContent>
+                        </AlertDialog>
                       </div>
                     </TableCell>
                   </TableRow>
