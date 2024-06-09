@@ -1,32 +1,22 @@
 import Link from 'next/link';
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from '@/components/ui/tooltip';
+
 import { menuItems } from '../config';
 
 const Sidebar = () => {
   return (
-    <aside className="fixed inset-y-0 left-0 z-10 hidden w-14 flex-col border-r bg-background sm:flex">
-      <nav className="flex flex-col items-center gap-4 px-2 sm:py-5">
-        <TooltipProvider>
-          {menuItems.map((item) => (
-            <Tooltip key={item.link}>
-              <TooltipTrigger asChild>
-                <Link
-                  className="flex size-9 items-center justify-center rounded-lg transition-colors hover:text-foreground md:size-8"
-                  href={item.link}
-                >
-                  {item.icon}
-                  <span className="sr-only">{item.title}</span>
-                </Link>
-              </TooltipTrigger>
-              <TooltipContent side="right">{item.title}</TooltipContent>
-            </Tooltip>
-          ))}
-        </TooltipProvider>
+    <aside className="hidden border-r bg-gray-100/40 p-4 dark:bg-gray-800/40 md:block">
+      <nav className="grid gap-2">
+        {menuItems.map((item) => (
+          <Link
+            key={item.link}
+            className="flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium transition-colors hover:bg-gray-200 dark:hover:bg-gray-700"
+            href={item.link}
+            prefetch={false}
+          >
+            {item.icon}
+            {item.title}
+          </Link>
+        ))}
       </nav>
     </aside>
   );

@@ -1,4 +1,15 @@
-import { BriefcaseIcon, HomeIcon, TicketIcon } from 'lucide-react';
+// config.js
+import {
+  BarChartIcon,
+  BriefcaseIcon,
+  CalendarIcon,
+  CreditCardIcon,
+  DollarSignIcon,
+  FileTextIcon,
+  HomeIcon,
+  TicketIcon,
+  UsersIcon,
+} from 'lucide-react';
 import type { ReactNode } from 'react';
 
 export type MenuItem = {
@@ -12,20 +23,38 @@ export const ICON_SIZE_CLASS = 'size-5';
 
 export const menuItems: MenuItem[] = [
   {
-    title: 'Home',
-    icon: <HomeIcon className="size-5" />,
+    title: 'Inicio',
+    icon: <HomeIcon className={ICON_SIZE_CLASS} />,
     link: '/',
   },
   {
-    title: 'Projects',
-    description: 'Manage your projects',
-    icon: <BriefcaseIcon className={ICON_SIZE_CLASS} />,
-    link: '/projects',
+    title: 'Gestión de Tarifas',
+    icon: <DollarSignIcon className={ICON_SIZE_CLASS} />,
+    link: '/fee-management',
   },
   {
-    title: 'Tickets',
-    description: 'Manage your tickets',
-    icon: <TicketIcon className={ICON_SIZE_CLASS} />,
-    link: '/tickets',
+    title: 'Emisión de Facturas',
+    icon: <FileTextIcon className={ICON_SIZE_CLASS} />,
+    link: '/issuing-invoices',
+  },
+  {
+    title: 'Recepción de Pagos',
+    icon: <CreditCardIcon className={ICON_SIZE_CLASS} />,
+    link: '/receiving-payments',
+  },
+  {
+    title: 'Gestión de Regularidad',
+    icon: <CalendarIcon className={ICON_SIZE_CLASS} />,
+    link: '/regularity-management',
+  },
+  {
+    title: 'Estudiantes',
+    icon: <UsersIcon className={ICON_SIZE_CLASS} />,
+    link: '/students',
+  },
+  {
+    title: 'Informes',
+    icon: <BarChartIcon className={ICON_SIZE_CLASS} />,
+    link: '/reports',
   },
 ];

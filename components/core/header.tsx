@@ -1,4 +1,5 @@
-import { PanelLeftIcon } from 'lucide-react';
+import { Package2Icon, PanelLeftIcon } from 'lucide-react';
+import Link from 'next/link';
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
@@ -15,7 +16,15 @@ import NavBar from './navbar';
 
 export const Header = () => {
   return (
-    <header className="flex h-14 w-full items-center gap-4 border-b bg-background px-4 sm:px-6">
+    <header className="flex h-16 items-center justify-between border-b bg-white px-6 dark:border-gray-800 dark:bg-gray-950">
+      <Link
+        href="#"
+        className="flex items-center gap-2 font-semibold"
+        prefetch={false}
+      >
+        <Package2Icon className="size-6" />
+        <span className="text-lg">UPP</span>
+      </Link>
       <Sheet>
         <SheetTrigger asChild>
           <Button className="sm:hidden" size="icon" variant="outline">
@@ -42,12 +51,12 @@ export const Header = () => {
               <div className="flex items-center space-x-2">
                 <Avatar>
                   <AvatarImage alt="@shadcn" src="/placeholder.svg" />
-                  <AvatarFallback>S</AvatarFallback>
+                  <AvatarFallback>A</AvatarFallback>
                 </Avatar>
                 <div>
-                  <p className="font-medium leading-none">Support Engineer</p>
+                  <p className="font-medium leading-none">Administrador de Cobranza</p>
                   <p className="text-xs leading-none text-muted-foreground">
-                    support@psa.com
+                    admin@psa.com
                   </p>
                 </div>
               </div>
