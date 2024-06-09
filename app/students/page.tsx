@@ -23,6 +23,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
+import { Toaster, toast } from 'sonner';
 
 interface Student {
   id: number;
@@ -137,21 +138,36 @@ export default function Page() {
     }
   };
 
-  const handleModalSave = () => {
-    if (modalMode === 'add') {
-      const newStudent = {
-        ...modalData,
-        id: students.length + 1,
-      };
-      setStudents([...students, newStudent]);
-    } else if (modalMode === 'edit') {
-      setStudents(
-        students.map((student) =>
-          student.id === modalData.id ? modalData : student,
-        ),
-      );
-    }
-    setShowModal(false);
+  const handleModalSave = async () => {
+    const savePromise = new Promise((resolve) => {
+      setTimeout(() => {
+        if (modalMode === 'add') {
+          const newStudent = {
+            ...modalData,
+            id: students.length + 1,
+          };
+          setStudents([...students, newStudent]);
+          resolve({ mode: 'add', name: newStudent.nombre });
+        } else if (modalMode === 'edit') {
+          setStudents(
+            students.map((student) =>
+              student.id === modalData.id ? modalData : student,
+            ),
+          );
+          resolve({ mode: 'edit', name: modalData.nombre });
+        }
+        setShowModal(false);
+      }, 2000);
+    });
+
+    toast.promise(savePromise, {
+      loading: 'Guardando...',
+      success: (data: any) =>
+        data.mode === 'add'
+          ? `Estudiante ${data.name} ha sido agregado correctamente.`
+          : `Estudiante ${data.name} ha sido actualizado correctamente.`,
+      error: 'Error al guardar el estudiante.',
+    });
   };
 
   return (
@@ -372,10 +388,11 @@ export default function Page() {
             </div>
           </div>
           <DialogFooter>
-            <Button onClick={handleModalSave}>Save</Button>
+            <Button onClick={handleModalSave}>Guardar</Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
+      <Toaster richColors closeButton position="bottom-right" />
     </div>
   );
 }
