@@ -97,8 +97,28 @@ export default function Page() {
     });
   });
 
+  const [selectedInvoices, setSelectedInvoices] = useState<number[]>([]);
   const [isSyncing, setIsSyncing] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
+
+  const toggleSelectInvoice = (index: number) => {
+    setSelectedInvoices((prevSelected) =>
+      prevSelected.includes(index)
+        ? prevSelected.filter((i) => i !== index)
+        : [...prevSelected, index],
+    );
+  };
+
+  const toggleSelectAll = () => {
+    if (selectedInvoices.length === invoices.length) {
+      setSelectedInvoices([]);
+    } else {
+      const pendingIndexes = invoices
+        .map((invoice, index) => (invoice.status === 'pending' ? index : -1))
+        .filter((index) => index !== -1);
+      setSelectedInvoices(pendingIndexes);
+    }
+  };
 
   const confirmInvoice = (index: number) => {
     const updatedInvoices = invoices.map((invoice, i) => {
@@ -111,6 +131,20 @@ export default function Page() {
       return invoice;
     });
     setInvoices(updatedInvoices);
+  };
+
+  const confirmSelectedInvoices = () => {
+    const updatedInvoices = invoices.map((invoice, i) => {
+      if (selectedInvoices.includes(i) && invoice.status === 'pending') {
+        return {
+          ...invoice,
+          status: 'confirmed',
+        };
+      }
+      return invoice;
+    });
+    setInvoices(updatedInvoices);
+    setSelectedInvoices([]);
   };
 
   const issueInvoices = async () => {
@@ -160,19 +194,34 @@ export default function Page() {
         <h1 className="text-2xl font-bold">
           Emisión de Facturas ({currentMonthName} en Curso)
         </h1>
-        <Button onClick={issueInvoices} disabled={isSyncing}>
-          {isSyncing ? 'Emitiendo...' : 'Emitir Facturas'}
-        </Button>
+        <div className="flex items-center gap-2">
+          <Button
+            variant="secondary"
+            onClick={confirmSelectedInvoices}
+            disabled={selectedInvoices.length === 0}
+          >
+            Confirmar Seleccionadas
+          </Button>
+          <Button
+            onClick={issueInvoices}
+            disabled={
+              isSyncing ||
+              !invoices.some((invoice) => invoice.status === 'confirmed')
+            }
+          >
+            {isSyncing ? 'Emitiendo...' : 'Emitir Facturas'}
+          </Button>
+        </div>
       </div>
       {showAlert && (
         <Alert>
           <AlertCircleIcon className="h-4 w-4" />
           <AlertTitle>Atención</AlertTitle>
           <AlertDescription>
-            Estamos a 15 días del 10 del próximo mes. Es momento de preparar y
-            emitir las facturas para el próximo mes. Asegúrese de que los datos
-            del alumno, el detalle del arancel aplicable y cualquier recargo
-            aplicado es correcto antes de emitir.
+            Faltan más de 15 días para el 10 del próximo mes. Es momento de
+            preparar y emitir las facturas correspondientes. Asegúrese de que
+            los datos del alumno, el detalle del arancel aplicable y cualquier
+            recargo aplicado sean correctos antes de emitirlas.
           </AlertDescription>
         </Alert>
       )}
@@ -180,6 +229,13 @@ export default function Page() {
         <Table>
           <TableHeader>
             <TableRow>
+              <TableHead>
+                <input
+                  type="checkbox"
+                  checked={selectedInvoices.length === invoices.length}
+                  onChange={toggleSelectAll}
+                />
+              </TableHead>
               <TableHead>Factura ID</TableHead>
               <TableHead>Estudiante</TableHead>
               <TableHead>Fecha de Emisión</TableHead>
@@ -190,11 +246,19 @@ export default function Page() {
               <TableHead>Total</TableHead>
               <TableHead>Estado</TableHead>
               <TableHead>Acciones</TableHead>
-              </TableRow>
+            </TableRow>
           </TableHeader>
           <TableBody>
             {invoices.map((invoice, index) => (
               <TableRow key={index}>
+                <TableCell>
+                  <input
+                    type="checkbox"
+                    checked={selectedInvoices.includes(index)}
+                    onChange={() => toggleSelectInvoice(index)}
+                    disabled={invoice.status !== 'pending'}
+                  />
+                </TableCell>
                 <TableCell className="font-medium">
                   {invoice.id || 'N/A'}
                 </TableCell>
