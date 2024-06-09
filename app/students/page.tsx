@@ -1,9 +1,20 @@
 'use client';
 
+import { EyeIcon, PenIcon, TrashIcon } from 'lucide-react';
 import { useState } from 'react';
+
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
-import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 import {
   Table,
   TableBody,
@@ -12,17 +23,6 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogDescription,
-  DialogFooter,
-} from '@/components/ui/dialog';
-import { Label } from '@/components/ui/label';
-import { Input } from '@/components/ui/input';
-import { PenIcon, TrashIcon } from 'lucide-react';
 
 interface Student {
   id: number;
@@ -155,16 +155,16 @@ export default function Page() {
   };
 
   return (
-    <div className="min-h-screen dark:bg-gray-900">
+    <div className="min-h-screen">
       <main className="flex-1 p-8">
-        <div className="max-w-7xl mx-auto">
-          <div className="flex items-center justify-between mb-4">
+        <div className="mx-auto max-w-7xl">
+          <div className="mb-4 flex items-center justify-between">
             <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
               Estudiantes
             </h1>
             <Button onClick={handleAddStudent}>Agregar Estudiante</Button>
           </div>
-          <div className="overflow-hidden rounded-lg border shadow-sm bg-white dark:bg-gray-800">
+          <div className="overflow-hidden rounded-lg border shadow-sm">
             <Table>
               <TableHeader>
                 <TableRow>
@@ -186,7 +186,8 @@ export default function Page() {
                     <TableCell>{student.id}</TableCell>
                     <TableCell>
                       <div className="flex items-center gap-2">
-                        <Avatar className="h-8 w-8">
+                        <Avatar className="size-8">
+                          <img src="/placeholder.svg" alt={student.nombre} />
                           <AvatarFallback>
                             {student.nombre.charAt(0)}
                           </AvatarFallback>
@@ -209,9 +210,17 @@ export default function Page() {
                           variant="outline"
                           size="icon"
                           className="rounded-full"
+                        >
+                          <EyeIcon className="size-4" />
+                          <span className="sr-only">Ver</span>
+                        </Button>
+                        <Button
+                          variant="outline"
+                          size="icon"
+                          className="rounded-full"
                           onClick={() => handleEditStudent(student)}
                         >
-                          <PenIcon className="h-4 w-4" />
+                          <PenIcon className="size-4" />
                           <span className="sr-only">Edit</span>
                         </Button>
                         <Button
@@ -220,7 +229,7 @@ export default function Page() {
                           className="rounded-full"
                           onClick={() => handleDeleteStudent(student.id)}
                         >
-                          <TrashIcon className="h-4 w-4" />
+                          <TrashIcon className="size-4" />
                           <span className="sr-only">Delete</span>
                         </Button>
                       </div>
@@ -245,7 +254,7 @@ export default function Page() {
             </DialogDescription>
           </DialogHeader>
           <div className="grid gap-4 py-4">
-            <div className="grid items-center grid-cols-4 gap-4">
+            <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="nombre" className="text-right">
                 Nombre
               </Label>
@@ -258,7 +267,7 @@ export default function Page() {
                 className="col-span-3"
               />
             </div>
-            <div className="grid items-center grid-cols-4 gap-4">
+            <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="apellido" className="text-right">
                 Apellido
               </Label>
@@ -271,7 +280,7 @@ export default function Page() {
                 className="col-span-3"
               />
             </div>
-            <div className="grid items-center grid-cols-4 gap-4">
+            <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="dni" className="text-right">
                 DNI
               </Label>
@@ -284,7 +293,7 @@ export default function Page() {
                 className="col-span-3"
               />
             </div>
-            <div className="grid items-center grid-cols-4 gap-4">
+            <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="direccion" className="text-right">
                 Dirección
               </Label>
@@ -297,7 +306,7 @@ export default function Page() {
                 className="col-span-3"
               />
             </div>
-            <div className="grid items-center grid-cols-4 gap-4">
+            <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="telefono" className="text-right">
                 Teléfono
               </Label>
@@ -310,7 +319,7 @@ export default function Page() {
                 className="col-span-3"
               />
             </div>
-            <div className="grid items-center grid-cols-4 gap-4">
+            <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="fecha_de_nacimiento" className="text-right">
                 Fecha de Nacimiento
               </Label>
@@ -327,7 +336,7 @@ export default function Page() {
                 className="col-span-3"
               />
             </div>
-            <div className="grid items-center grid-cols-4 gap-4">
+            <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="fecha_de_ingreso" className="text-right">
                 Fecha de Ingreso
               </Label>
@@ -344,7 +353,7 @@ export default function Page() {
                 className="col-span-3"
               />
             </div>
-            <div className="grid items-center grid-cols-4 gap-4">
+            <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="fecha_de_egreso" className="text-right">
                 Fecha de Egreso
               </Label>
