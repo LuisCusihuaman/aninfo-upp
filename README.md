@@ -1,36 +1,46 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Universidad Politécnica del Plata (UPP) Application
 
-## Getting Started
+The UPP Frontend Application is a web interface designed to manage various aspects of user profiles, fees, invoices, and regularity management. This guide provides instructions on setting up the application locally using Next.js.
 
-First, run the development server:
+## 🌟 Features
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- **User Management**: Create, read, update, and delete user profiles.
+- **Fee Management**: Handle the management of student fees.
+- **Issuing Invoices**: Generate and manage invoices.
+- **Receiving Payments**: Track and record payments received.
+- **Regularity Management**: Ensure regularity and compliance within the system.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+[![Docs](docs.png)](docs.png)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 🛠️ Installation
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+To set up the UPP Frontend Application on your local environment, follow these steps:
 
-## Learn More
+1. **Clone the Repository**:
 
-To learn more about Next.js, take a look at the following resources:
+   ```bash
+   git clone git@github.com:LuisCusihuaman/aninfo-upp.git
+   cd aninfo-upp
+   ```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+2. **Install Dependencies**:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+   Ensure you have Node.js and pnpm installed. Then, run the following command to install the dependencies:
 
-## Deploy on Vercel
+   ```bash
+   pnpm install
+   ```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+3. **Run the Development Server**:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+   Start the development server with the following command:
+
+   ```bash
+   pnpm dev
+   ```
+
+## 🤝 Contributors
+
+Contributions are welcome!
+
+Feel free to submit a pull request or open an issue for any improvements or bug fixes.
