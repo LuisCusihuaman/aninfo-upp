@@ -57,7 +57,7 @@ export const menuItems: MenuItem[] = [
   {
     title: 'Estudiantes',
     description:
-      'Gestionar la información de los estudiantes, incluyendo datos personales, historial académico, y estado de regularidad. Esto incluye la inscripción en materias, registro de notas y gestión de egresos.',
+      'Gestionar la información de los estudiantes, incluyendo datos personales, estado de regularidad, entre otros.',
     icon: <UsersIcon className={ICON_SIZE_CLASS} />,
     link: '/students',
   },
