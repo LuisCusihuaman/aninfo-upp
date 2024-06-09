@@ -1,10 +1,11 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { CheckIcon } from 'lucide-react';
+import { useEffect, useState } from 'react';
+
+import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Avatar, AvatarFallback } from '@/components/ui/avatar';
-import { CheckIcon } from 'lucide-react';
 import {
   Table,
   TableBody,
@@ -162,7 +163,7 @@ export default function Page() {
                 </TableCell>
                 <TableCell>
                   <div className="flex items-center gap-2">
-                    <Avatar className="h-8 w-8">
+                    <Avatar className="size-8">
                       <img src="/placeholder.svg" alt={invoice.student.name} />
                       <AvatarFallback>
                         {invoice.student.name.charAt(0)}
@@ -216,7 +217,7 @@ export default function Page() {
                     onClick={() => confirmInvoice(index)}
                     disabled={invoice.status !== 'pending'}
                   >
-                    <CheckIcon className="h-4 w-4" />
+                    <CheckIcon className="size-4" />
                     <span className="sr-only">Confirmar</span>
                   </Button>
                 </TableCell>

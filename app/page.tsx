@@ -1,6 +1,9 @@
 'use client';
 
-import { ICON_SIZE_CLASS, menuItems } from '@/components/config';
+import Link from 'next/link';
+
+import { menuItems } from '@/components/config';
+import { Button } from '@/components/ui/button';
 import {
   Card,
   CardContent,
@@ -8,8 +11,6 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import Link from 'next/link';
 
 export default function Home() {
   return (
@@ -27,7 +28,7 @@ export default function Home() {
                   {item.description}
                 </CardDescription>
               </CardHeader>
-              <CardContent className="flex items-center justify-between w-full">
+              <CardContent className="flex w-full items-center justify-between">
                 <Link href={item.link}>
                   <Button variant="outline" className="flex items-center gap-2">
                     Ir

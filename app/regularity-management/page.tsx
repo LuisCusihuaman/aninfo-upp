@@ -1,22 +1,22 @@
 'use client';
 
-import { useState, useMemo } from 'react';
-import { Avatar, AvatarFallback } from '@/components/ui/avatar';
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
 import {
   ChevronDownIcon,
   ChevronsUpDownIcon,
   EyeIcon,
   FilePenIcon,
-  TrashIcon,
 } from 'lucide-react';
+import { useMemo, useState } from 'react';
+
+import { Avatar, AvatarFallback } from '@/components/ui/avatar';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
-  DropdownMenuTrigger,
   DropdownMenuContent,
   DropdownMenuRadioGroup,
   DropdownMenuRadioItem,
+  DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import {
   Table,
@@ -133,7 +133,7 @@ export default function Page() {
                       ? 'Regular'
                       : 'Irregular'}
                 </span>
-                <ChevronDownIcon className="h-4 w-4" />
+                <ChevronDownIcon className="size-4" />
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
@@ -162,7 +162,7 @@ export default function Page() {
                       ? 'Nombre'
                       : 'Email'}
                 </span>
-                <ChevronsUpDownIcon className="h-4 w-4" />
+                <ChevronsUpDownIcon className="size-4" />
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
@@ -203,7 +203,7 @@ export default function Page() {
                 <TableCell>{student.id}</TableCell>
                 <TableCell>
                   <div className="flex items-center gap-2">
-                    <Avatar className="h-8 w-8">
+                    <Avatar className="size-8">
                       <img src="/placeholder.svg" alt={student.name} />
                       <AvatarFallback>{student.name.charAt(0)}</AvatarFallback>
                     </Avatar>
@@ -228,17 +228,21 @@ export default function Page() {
                 <TableCell>{student.lastPayment}</TableCell>
                 <TableCell>
                   <div className="flex items-center gap-2">
-                    <Button variant="outline" size="icon">
-                      <EyeIcon className="h-4 w-4" />
+                    <Button
+                      variant="outline"
+                      size="icon"
+                      className="rounded-full"
+                    >
+                      <EyeIcon className="size-4" />
                       <span className="sr-only">Ver</span>
                     </Button>
-                    <Button variant="outline" size="icon">
-                      <FilePenIcon className="h-4 w-4" />
+                    <Button
+                      variant="outline"
+                      size="icon"
+                      className="rounded-full"
+                    >
+                      <FilePenIcon className="size-4" />
                       <span className="sr-only">Editar</span>
-                    </Button>
-                    <Button variant="outline" size="icon">
-                      <TrashIcon className="h-4 w-4" />
-                      <span className="sr-only">Eliminar</span>
                     </Button>
                   </div>
                 </TableCell>

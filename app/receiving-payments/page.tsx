@@ -1,10 +1,11 @@
 'use client';
 
+import { EyeIcon, FilePenIcon, InfoIcon } from 'lucide-react';
 import { useState } from 'react';
+
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { EyeIcon, FilePenIcon, TrashIcon, InfoIcon } from 'lucide-react';
 import {
   Table,
   TableBody,
@@ -13,12 +14,6 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
 import {
   Tooltip,
   TooltipContent,
@@ -121,13 +116,13 @@ export default function Page() {
 
   return (
     <main className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-6">
-      <div className="flex items-center justify-between mb-4">
+      <div className="mb-4 flex items-center justify-between">
         <h1 className="text-2xl font-bold">Reporte de Transacciones Diarias</h1>
         <div className="flex items-center gap-2">
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger asChild>
-                <InfoIcon className="size-5 text-gray-500 cursor-pointer" />
+                <InfoIcon className="size-5 cursor-pointer text-gray-500" />
               </TooltipTrigger>
               <TooltipContent>
                 <p>
@@ -223,14 +218,6 @@ export default function Page() {
                     >
                       <FilePenIcon className="size-4" />
                       <span className="sr-only">Editar</span>
-                    </Button>
-                    <Button
-                      variant="outline"
-                      size="icon"
-                      className="rounded-full"
-                    >
-                      <TrashIcon className="size-4" />
-                      <span className="sr-only">Eliminar</span>
                     </Button>
                   </div>
                 </TableCell>
