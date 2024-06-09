@@ -54,7 +54,9 @@ export const Header = () => {
                   <AvatarFallback>A</AvatarFallback>
                 </Avatar>
                 <div>
-                  <p className="font-medium leading-none">Administrador de Cobranza</p>
+                  <p className="font-medium leading-none">
+                    Administrador de Cobranza
+                  </p>
                   <p className="text-xs leading-none text-muted-foreground">
                     admin@psa.com
                   </p>

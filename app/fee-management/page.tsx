@@ -1,24 +1,25 @@
 'use client';
 
 import { useState } from 'react';
+
+import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import {
   Select,
-  SelectTrigger,
-  SelectValue,
   SelectContent,
   SelectItem,
+  SelectTrigger,
+  SelectValue,
 } from '@/components/ui/select';
 import {
   Table,
-  TableHeader,
-  TableRow,
-  TableHead,
   TableBody,
   TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
 } from '@/components/ui/table';
-import { Badge } from '@/components/ui/badge';
 
 const months = [
   'January',
@@ -47,9 +48,7 @@ export default function Page() {
     initialFees[currentMonthIndex].status = 'pending';
     return initialFees;
   });
-  const [selectedMonth, setSelectedMonth] = useState(
-    months[currentMonthIndex],
-  );
+  const [selectedMonth, setSelectedMonth] = useState(months[currentMonthIndex]);
   const [newFeeAmount, setNewFeeAmount] = useState<number>(0);
   const [error, setError] = useState<string | null>(null);
 
@@ -76,10 +75,7 @@ export default function Page() {
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-bold">Tarifas de Matrícula</h1>
         <div className="flex items-center gap-4">
-          <Select
-            value={selectedMonth}
-            onValueChange={setSelectedMonth}
-          >
+          <Select value={selectedMonth} onValueChange={setSelectedMonth}>
             <SelectTrigger>
               <SelectValue placeholder="Seleccionar mes" />
             </SelectTrigger>
@@ -101,9 +97,9 @@ export default function Page() {
         </div>
       </div>
       {error && (
-        <div className="bg-red-100 text-red-900 rounded-md p-4">{error}</div>
+        <div className="rounded-md bg-red-100 p-4 text-red-900">{error}</div>
       )}
-      <div className="border shadow-sm rounded-lg p-2">
+      <div className="rounded-lg border p-2 shadow-sm">
         <Table>
           <TableHeader>
             <TableRow>

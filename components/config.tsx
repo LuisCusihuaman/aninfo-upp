@@ -1,13 +1,11 @@
 // config.js
 import {
   BarChartIcon,
-  BriefcaseIcon,
   CalendarIcon,
   CreditCardIcon,
   DollarSignIcon,
   FileTextIcon,
   HomeIcon,
-  TicketIcon,
   UsersIcon,
 } from 'lucide-react';
 import type { ReactNode } from 'react';
