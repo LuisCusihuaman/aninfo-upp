@@ -8,7 +8,7 @@ import {
 } from 'lucide-react';
 import { useMemo, useState } from 'react';
 
-import { Avatar, AvatarFallback } from '@/components/ui/avatar';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import {
@@ -204,7 +204,7 @@ export default function Page() {
                 <TableCell>
                   <div className="flex items-center gap-2">
                     <Avatar className="size-8">
-                      <img src="/placeholder.svg" alt={student.name} />
+                      <AvatarImage src="/placeholder.svg" alt={student.name} />
                       <AvatarFallback>{student.name.charAt(0)}</AvatarFallback>
                     </Avatar>
                     <div>

@@ -2,8 +2,10 @@
 
 import { AlertCircleIcon, CheckIcon } from 'lucide-react';
 import { useEffect, useState } from 'react';
-import { Toaster, toast } from 'sonner';
-import { Avatar, AvatarFallback } from '@/components/ui/avatar';
+import { toast, Toaster } from 'sonner';
+
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import {
@@ -14,7 +16,6 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 
 const students = [
   {
@@ -215,7 +216,7 @@ export default function Page() {
       </div>
       {showAlert && (
         <Alert>
-          <AlertCircleIcon className="h-4 w-4" />
+          <AlertCircleIcon className="size-4" />
           <AlertTitle>Atención</AlertTitle>
           <AlertDescription>
             Faltan más de 15 días para el 10 del próximo mes. Es momento de
@@ -265,7 +266,10 @@ export default function Page() {
                 <TableCell>
                   <div className="flex items-center gap-2">
                     <Avatar className="size-8">
-                      <img src="/placeholder.svg" alt={invoice.student.name} />
+                      <AvatarImage
+                        alt={invoice.student.name}
+                        src="/placeholder.svg"
+                      />
                       <AvatarFallback>
                         {invoice.student.name.charAt(0)}
                       </AvatarFallback>

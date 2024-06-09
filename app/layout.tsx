@@ -15,7 +15,7 @@ const fontSans = FontSans({
 
 export const metadata: Metadata = {
   title: 'UPP',
-  description: 'UPP - Universidad',
+  description: 'UPP - Universidad Politécnica del Plata (UPP)',
 };
 
 export default function RootLayout({

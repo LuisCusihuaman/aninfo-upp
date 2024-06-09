@@ -1,8 +1,10 @@
 'use client';
 
 import { AlertCircleIcon } from 'lucide-react';
-import { useEffect, useState } from 'react';
-import { Toaster, toast } from 'sonner';
+import { useState } from 'react';
+import { toast, Toaster } from 'sonner';
+
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -21,7 +23,6 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 
 const months = [
   'Enero',
@@ -117,7 +118,7 @@ export default function Page() {
         <div className="rounded-md bg-red-100 p-4 text-red-900">{error}</div>
       )}
       <Alert>
-        <AlertCircleIcon className="h-4 w-4" />
+        <AlertCircleIcon className="size-4" />
         <AlertTitle>Información Importante</AlertTitle>
         <AlertDescription>
           En esta sección, puede definir y actualizar los aranceles mensuales

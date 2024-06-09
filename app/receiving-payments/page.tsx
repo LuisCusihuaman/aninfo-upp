@@ -1,8 +1,10 @@
 'use client';
 
+import { AvatarImage } from '@radix-ui/react-avatar';
 import { EyeIcon, FilePenIcon, InfoIcon } from 'lucide-react';
 import { useState } from 'react';
-import { Toaster, toast } from 'sonner';
+import { toast, Toaster } from 'sonner';
+
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -275,7 +277,10 @@ export default function Page() {
                 <TableCell>
                   <div className="flex items-center gap-2">
                     <Avatar className="size-8">
-                      <img src="/placeholder.svg" alt={invoice.student.name} />
+                      <AvatarImage
+                        src="/placeholder.svg"
+                        alt={invoice.student.name}
+                      />
                       <AvatarFallback>
                         {invoice.student.name.charAt(0)}
                       </AvatarFallback>
