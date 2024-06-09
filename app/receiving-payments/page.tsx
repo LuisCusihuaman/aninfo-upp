@@ -34,8 +34,54 @@ const transactions = [
   { date: '2024-02-25', studentId: 'S001', invoiceId: 'INV-003', amount: 5500 },
 ];
 
+type Student =  {
+  name: string;
+  id: string;
+  email: string;
+}
+
+type Fees = {
+  tuition: number;
+}
+
+type Invoice = {
+  id: string;
+  student: Student;
+  emissionDate: string;
+  dueDate: string;
+  fees: Fees;
+  latePaymentCharge: number;
+  status: string;
+}
+
+const generateNewInvoice = (
+  id: number,
+  studentId: string,
+  studentName: string,
+  email: string,
+  emissionDate: string,
+  dueDate: string,
+  tuition: number,
+): Invoice => {
+  return {
+    id: `INV-${id.toString().padStart(3, '0')}`,
+    student: {
+      name: studentName,
+      id: studentId,
+      email: email,
+    },
+    emissionDate: emissionDate,
+    dueDate: dueDate,
+    fees: {
+      tuition: tuition,
+    },
+    latePaymentCharge: 0,
+    status: 'Pending',
+  };
+};
+
 export default function Page() {
-  const [invoices, setInvoices] = useState([
+  const [invoices, setInvoices] = useState<Invoice[]>([
     {
       id: 'INV-001',
       student: {
@@ -99,6 +145,7 @@ export default function Page() {
   ]);
 
   const synchronizeWithTangerine = () => {
+    // Update existing invoices
     const updatedInvoices = invoices.map((invoice) => {
       const transaction = transactions.find(
         (t) => t.invoiceId === invoice.id && t.studentId === invoice.student.id,
@@ -111,7 +158,56 @@ export default function Page() {
       }
       return invoice;
     });
-    setInvoices(updatedInvoices);
+
+    const newInvoices = [
+      generateNewInvoice(
+        5,
+        'S005',
+        'Laura Wilson',
+        'laura.wilson@example.com',
+        '2023-06-01',
+        '2023-06-30',
+        5000,
+      ),
+      generateNewInvoice(
+        6,
+        'S006',
+        'David Brown',
+        'david.brown@example.com',
+        '2023-07-01',
+        '2023-07-31',
+        5000,
+      ),
+      generateNewInvoice(
+        7,
+        'S007',
+        'Sophia Miller',
+        'sophia.miller@example.com',
+        '2023-08-01',
+        '2023-08-31',
+        5000,
+      ),
+      generateNewInvoice(
+        8,
+        'S008',
+        'James Moore',
+        'james.moore@example.com',
+        '2023-09-01',
+        '2023-09-30',
+        5000,
+      ),
+      generateNewInvoice(
+        9,
+        'S009',
+        'Isabella Taylor',
+        'isabella.taylor@example.com',
+        '2023-10-01',
+        '2023-10-31',
+        5000,
+      ),
+    ];
+
+    setInvoices([...updatedInvoices, ...newInvoices]);
   };
 
   return (
