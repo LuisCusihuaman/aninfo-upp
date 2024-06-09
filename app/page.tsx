@@ -30,8 +30,8 @@ export default function Home() {
               </CardHeader>
               <CardContent className="flex w-full items-center justify-between">
                 <Link href={item.link}>
-                  <Button variant="outline" className="flex items-center gap-2">
-                    Ir
+                  <Button variant="default" className="flex items-center gap-2">
+                    Administrar
                   </Button>
                 </Link>
                 <div className="ml-2">{item.icon}</div>
