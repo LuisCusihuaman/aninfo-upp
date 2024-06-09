@@ -149,8 +149,18 @@ export default function Page() {
   const synchronizeWithTangerine = async () => {
     setIsSyncing(true);
 
-    // Mock sleep for 2 seconds
-    await new Promise((resolve) => setTimeout(resolve, 2000));
+    // Simulate a network delay
+    const syncDelay = Math.random() > 0.5 ? 3000 : 1000;
+    await new Promise((resolve) => setTimeout(resolve, syncDelay));
+
+    // Simulate a 50/50 chance of failure
+    if (syncDelay === 3000) {
+      setIsSyncing(false);
+      toast.error(
+        'Los servidores de Tangerine se encuentran fuera de servicio. Comuníquese con soporte 🥺',
+      );
+      return;
+    }
 
     // Update existing invoices
     const updatedInvoices = invoices.map((invoice) => {
