@@ -1,8 +1,8 @@
 'use client';
 
-import { CheckIcon } from 'lucide-react';
+import { AlertCircleIcon, CheckIcon } from 'lucide-react';
 import { useEffect, useState } from 'react';
-
+import { Toaster, toast } from 'sonner';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -14,6 +14,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 
 const students = [
   {
@@ -26,7 +27,7 @@ const students = [
     id: 'S002',
     name: 'Jane Smith',
     email: 'jane.smith@example.com',
-    unpaidAmount: 20000,
+    unpaidAmount: 15000,
   },
   {
     id: 'S003',
@@ -34,10 +35,25 @@ const students = [
     email: 'michael.johnson@example.com',
     unpaidAmount: 0,
   },
-].map((student) => ({
-  ...student,
-  id: '',
-})) as { id: string; name: string; email: string; unpaidAmount: number }[];
+  {
+    id: 'S004',
+    name: 'Emily Davis',
+    email: 'emily.davis@example.com',
+    unpaidAmount: 15000,
+  },
+  {
+    id: 'S005',
+    name: 'Laura Wilson',
+    email: 'laura.wilson@example.com',
+    unpaidAmount: 20000,
+  },
+  {
+    id: 'S006',
+    name: 'David Brown',
+    email: 'david.brown@example.com',
+    unpaidAmount: 0,
+  },
+];
 
 const calculateLatePaymentCharge = (amount: number) => amount * 0.05;
 
@@ -61,40 +77,34 @@ const getMonthName = (monthIndex: number) => {
 
 export default function Page() {
   const [invoices, setInvoices] = useState(() => {
-    return students.map((student) => {
+    return students.map((student, index) => {
       const lateCharge =
         student.unpaidAmount > 0
           ? calculateLatePaymentCharge(student.unpaidAmount)
           : 0;
+      const totalAmount = 20000 + student.unpaidAmount + lateCharge;
       return {
-        id: '',
+        id: index < 3 ? `INV-${String(index + 1).padStart(3, '0')}` : '',
         student,
-        emissionDate: '',
-        dueDate: '',
+        emissionDate: index < 3 ? '2023-08-01' : '',
+        dueDate: index < 3 ? '2023-08-31' : '',
         amount: 20000,
         latePaymentCharge: lateCharge,
-        totalAmount: 20000 + lateCharge,
-        status: 'pending',
+        totalAmount: totalAmount,
+        unpaidAmount: student.unpaidAmount,
+        status: index < 3 ? 'issued' : 'pending',
       };
     });
   });
 
+  const [isSyncing, setIsSyncing] = useState(false);
+  const [showAlert, setShowAlert] = useState(false);
+
   const confirmInvoice = (index: number) => {
     const updatedInvoices = invoices.map((invoice, i) => {
-      if (i === index) {
-        const emissionDate = new Date();
-        const dueDate = new Date();
-        dueDate.setDate(emissionDate.getDate() + 30);
-        const lateCharge =
-          invoice.status === 'pending'
-            ? calculateLatePaymentCharge(invoice.amount)
-            : 0;
+      if (i === index && invoice.status === 'pending') {
         return {
           ...invoice,
-          emissionDate: emissionDate.toISOString().split('T')[0],
-          dueDate: dueDate.toISOString().split('T')[0],
-          latePaymentCharge: lateCharge,
-          totalAmount: invoice.amount + lateCharge,
           status: 'confirmed',
         };
       }
@@ -103,18 +113,31 @@ export default function Page() {
     setInvoices(updatedInvoices);
   };
 
-  const issueInvoices = () => {
+  const issueInvoices = async () => {
+    setIsSyncing(true);
+
+    // Mock sleep for 2 seconds
+    await new Promise((resolve) => setTimeout(resolve, 2000));
+
     const updatedInvoices = invoices.map((invoice, index) => {
       if (invoice.status === 'confirmed') {
+        const emissionDate = new Date();
+        const dueDate = new Date();
+        dueDate.setDate(emissionDate.getDate() + 30);
         return {
           ...invoice,
           id: `INV-${String(index + 1).padStart(3, '0')}`,
+          emissionDate: emissionDate.toISOString().split('T')[0],
+          dueDate: dueDate.toISOString().split('T')[0],
           status: 'issued',
         };
       }
       return invoice;
     });
     setInvoices(updatedInvoices);
+    setIsSyncing(false);
+
+    toast.success('Facturas emitidas con éxito');
   };
 
   useEffect(() => {
@@ -122,8 +145,7 @@ export default function Page() {
       const today = new Date();
       const dayOfMonth = today.getDate();
       if (dayOfMonth >= 25 || dayOfMonth <= 9) {
-        // 15 days before the 10th of the next month
-        issueInvoices();
+        setShowAlert(true);
       }
     };
 
@@ -138,8 +160,22 @@ export default function Page() {
         <h1 className="text-2xl font-bold">
           Emisión de Facturas ({currentMonthName} en Curso)
         </h1>
-        <Button onClick={issueInvoices}>Emitir Facturas</Button>
+        <Button onClick={issueInvoices} disabled={isSyncing}>
+          {isSyncing ? 'Emitiendo...' : 'Emitir Facturas'}
+        </Button>
       </div>
+      {showAlert && (
+        <Alert>
+          <AlertCircleIcon className="h-4 w-4" />
+          <AlertTitle>Atención</AlertTitle>
+          <AlertDescription>
+            Estamos a 15 días del 10 del próximo mes. Es momento de preparar y
+            emitir las facturas para el próximo mes. Asegúrese de que los datos
+            del alumno, el detalle del arancel aplicable y cualquier recargo
+            aplicado es correcto antes de emitir.
+          </AlertDescription>
+        </Alert>
+      )}
       <div className="overflow-hidden rounded-lg border shadow-sm">
         <Table>
           <TableHeader>
@@ -148,12 +184,13 @@ export default function Page() {
               <TableHead>Estudiante</TableHead>
               <TableHead>Fecha de Emisión</TableHead>
               <TableHead>Fecha de Vencimiento</TableHead>
-              <TableHead>Monto</TableHead>
+              <TableHead>Monto Actual</TableHead>
+              <TableHead>Monto Adeudado</TableHead>
               <TableHead>Cargo por Mora</TableHead>
               <TableHead>Total</TableHead>
               <TableHead>Estado</TableHead>
               <TableHead>Acciones</TableHead>
-            </TableRow>
+              </TableRow>
           </TableHeader>
           <TableBody>
             {invoices.map((invoice, index) => (
@@ -177,13 +214,16 @@ export default function Page() {
                     </div>
                   </div>
                 </TableCell>
-                <TableCell>
-                  {invoice.status !== 'pending' ? invoice.emissionDate : 'N/A'}
-                </TableCell>
-                <TableCell>
-                  {invoice.status !== 'pending' ? invoice.dueDate : 'N/A'}
-                </TableCell>
+                <TableCell>{invoice.emissionDate || 'N/A'}</TableCell>
+                <TableCell>{invoice.dueDate || 'N/A'}</TableCell>
                 <TableCell>${invoice.amount.toFixed(2)}</TableCell>
+                <TableCell>
+                  {invoice.unpaidAmount > 0 ? (
+                    `$${invoice.unpaidAmount.toFixed(2)}`
+                  ) : (
+                    <span className="text-gray-500 dark:text-gray-400">-</span>
+                  )}
+                </TableCell>
                 <TableCell>
                   {invoice.latePaymentCharge > 0 ? (
                     `$${invoice.latePaymentCharge.toFixed(2)}`
@@ -226,6 +266,7 @@ export default function Page() {
           </TableBody>
         </Table>
       </div>
+      <Toaster richColors closeButton position="bottom-right" />
     </main>
   );
 }
