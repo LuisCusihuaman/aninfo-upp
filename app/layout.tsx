@@ -3,6 +3,8 @@ import './globals.css';
 import type { Metadata } from 'next';
 import { Inter as FontSans } from 'next/font/google';
 
+import Header from '@/components/core/header';
+import Sidebar from '@/components/core/sidebar';
 import { ThemeProvider } from '@/components/theme-provider';
 import { cn } from '@/lib/utils';
 
@@ -31,11 +33,15 @@ export default function RootLayout({
       >
         <body
           className={cn(
-            'min-h-screen bg-background font-sans antialiased',
+            'min-h-screen bg-background font-sans antialiased w-full bg-muted/40"',
             fontSans.variable,
           )}
         >
-          {children}
+          <Sidebar />
+          <div className="flex flex-1 flex-col">
+            <Header />
+            <main className="flex-1 pl-20 pt-4">{children}</main>
+          </div>
         </body>
       </ThemeProvider>
     </html>
