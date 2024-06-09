@@ -2,7 +2,7 @@
 
 import { EyeIcon, FilePenIcon, InfoIcon } from 'lucide-react';
 import { useState } from 'react';
-
+import { Toaster, toast } from 'sonner';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -34,15 +34,15 @@ const transactions = [
   { date: '2024-02-25', studentId: 'S001', invoiceId: 'INV-003', amount: 5500 },
 ];
 
-type Student =  {
+type Student = {
   name: string;
   id: string;
   email: string;
-}
+};
 
 type Fees = {
   tuition: number;
-}
+};
 
 type Invoice = {
   id: string;
@@ -52,7 +52,7 @@ type Invoice = {
   fees: Fees;
   latePaymentCharge: number;
   status: string;
-}
+};
 
 const generateNewInvoice = (
   id: number,
@@ -144,7 +144,14 @@ export default function Page() {
     },
   ]);
 
-  const synchronizeWithTangerine = () => {
+  const [isSyncing, setIsSyncing] = useState(false);
+
+  const synchronizeWithTangerine = async () => {
+    setIsSyncing(true);
+
+    // Mock sleep for 2 seconds
+    await new Promise((resolve) => setTimeout(resolve, 2000));
+
     // Update existing invoices
     const updatedInvoices = invoices.map((invoice) => {
       const transaction = transactions.find(
@@ -208,6 +215,9 @@ export default function Page() {
     ];
 
     setInvoices([...updatedInvoices, ...newInvoices]);
+    setIsSyncing(false);
+
+    toast.success('Sincronización completada');
   };
 
   return (
@@ -228,8 +238,8 @@ export default function Page() {
               </TooltipContent>
             </Tooltip>
           </TooltipProvider>
-          <Button onClick={synchronizeWithTangerine}>
-            Sincronizar con Tangerine
+          <Button onClick={synchronizeWithTangerine} disabled={isSyncing}>
+            {isSyncing ? 'Sincronizando...' : 'Sincronizar con Tangerine'}
           </Button>
         </div>
       </div>
@@ -322,6 +332,7 @@ export default function Page() {
           </TableBody>
         </Table>
       </div>
+      <Toaster richColors closeButton position="bottom-right" />
     </main>
   );
 }
